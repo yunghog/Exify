@@ -11,13 +11,15 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "base64-arraybuffer": "^1.0.2",
     "exifreader": "^4.5.1",
     "react": "18.0.0",
     "react-native": "0.69.3",
     "react-native-exif": "^0.5.0",
     "react-native-fs": "^2.20.0",
-    "react-native-image-picker": "^4.8.5"
+    "react-native-image-picker": "^4.8.5",
+    "react-native-maps": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

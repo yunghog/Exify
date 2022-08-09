@@ -43,20 +43,6 @@ export const ListTable = (props: ListTableProps) => {
       <ItemRow label={'Focus'} value={data.FNumber.description} />
       <ItemRow label={'Flash'} value={data.Flash.description} />
       <ItemRow label={'White Balance'} value={data.WhiteBalance.description} />
-      <View />
-      <TextSmall
-        style={{
-          fontSize: horizontalScale(14),
-          fontFamily: AppFonts.lexendBold,
-          opacity: 0.5,
-        }}>
-        {'Profile'}
-      </TextSmall>
-      <TextSmall style={{fontSize: horizontalScale(10)}}>
-        {JSON.stringify(props.data.icc)}
-        {JSON.stringify(props.data.icc)}
-        {JSON.stringify(props.data.icc)}
-      </TextSmall>
     </View>
   );
 };
@@ -79,6 +65,11 @@ const styles = StyleSheet.create({
     marginHorizontal: horizontalScale(10),
     borderBottomWidth: 1,
     borderBottomColor: hexToRGB(COLORS.primary, 0.3),
+  },
+  hr: {
+    borderBottomWidth: 1,
+    borderBottomColor: hexToRGB(COLORS.primary, 0.3),
+    width: horizontalScale(340),
   },
   tableRow: {
     display: 'flex',

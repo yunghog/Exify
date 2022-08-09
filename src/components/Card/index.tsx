@@ -1,3 +1,4 @@
 import CardShadow from './CardShadow';
 import UploadCard from './UploadCard';
-export {CardShadow, UploadCard};
+import GPSCard from './GPSCard';
+export {CardShadow, UploadCard, GPSCard};

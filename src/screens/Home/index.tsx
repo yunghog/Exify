@@ -16,6 +16,7 @@ import {
   PrimaryButton,
   TextLarge,
   TextSmall,
+  GPSCard,
 } from '../../components';
 import {UploadCard} from '../../components/Card';
 import {Status} from '../../constants';
@@ -24,12 +25,15 @@ import {horizontalScale, verticalScale} from '../../utils/scale';
 import * as ExifReader from '../../../node_modules/exifreader/src/exif-reader';
 import RNFS from 'react-native-fs';
 import {decode} from 'base64-arraybuffer';
-import {ExifData} from './types';
+import {ExifData, Place} from './types';
 import {displayDateTime} from '../../utils/helper';
+import {GeoCodinngService} from '../../services/geoCoding.service';
+import AddressCard from '../../components/Card/AddressCard';
 
 const Home = () => {
   const [image, setImage] = useState<any>();
   const [status, setStatus] = useState<Status>(Status.UPLOADING);
+  const [place, setPlace] = useState<Place>();
   const [exifData, setExifData] = useState<ExifData>();
   const img = useRef(null).current;
 
@@ -69,6 +73,15 @@ const Home = () => {
       fetchExif(image.uri);
     }
   }, [image]);
+
+  useEffect(() => {
+    if (exifData?.gps) {
+      const latlng = exifData.gps.Latitude + ',' + exifData.gps.Longitude;
+      GeoCodinngService.getPlace(latlng).then(res => {
+        setPlace(res.data[0]);
+      });
+    }
+  }, [exifData]);
 
   return (
     <ScrollView>
@@ -119,6 +132,8 @@ const Home = () => {
             }
           />
           <ListTable data={exifData} />
+          <GPSCard data={exifData} />
+          {place && <AddressCard data={place} />}
         </BottomSheet>
       )}
     </ScrollView>

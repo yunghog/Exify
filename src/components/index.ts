@@ -5,8 +5,8 @@ import {
   LinkButton,
   Button,
 } from './Button';
-import {CardShadow} from './Card';
-import ListItem, {ListTable} from './ListItem';
+import {CardShadow, GPSCard} from './Card';
+import ListItem, {ItemRow, ListTable} from './ListItem';
 import {
   TextDark,
   TextLarge,
@@ -30,4 +30,6 @@ export {
   BottomSheet,
   ListTable,
   ListItem,
+  GPSCard,
+  ItemRow,
 };
