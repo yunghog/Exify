@@ -1,3 +1,4 @@
+import AlertModal from './AlertModal';
 import BottomSheet from './BottomSheet';
 import {
   PrimaryButton,
@@ -15,7 +16,9 @@ import {
   TextSmall,
   TextSub,
 } from './Typography';
+import Wrapper from './Wrapper';
 export {
+  AlertModal,
   PrimaryButton,
   Button,
   PrimaryButtonOutline,
@@ -32,4 +35,5 @@ export {
   ListItem,
   GPSCard,
   ItemRow,
+  Wrapper,
 };

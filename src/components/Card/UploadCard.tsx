@@ -4,7 +4,7 @@ import {Status} from '../../constants';
 import {COLORS, hexToRGB} from '../../constants/colors';
 import {horizontalScale} from '../../utils/scale';
 import {LinkButton} from '../Button';
-import {TextPrimary, TextSmall} from '../Typography';
+import {TextDark, TextPrimary, TextSmall} from '../Typography';
 import {UploadCardProps} from './types';
 
 const UploadCard = ({
@@ -42,7 +42,7 @@ const UploadCard = ({
     <View style={[styles.container, style]}>
       <View style={styles.info}>
         {renderStatus(status)}
-        <TextPrimary style={styles.fileName}>{fileName}</TextPrimary>
+        <TextDark style={styles.fileName}>{fileName}</TextDark>
         <Animated.View style={[styles.progressBar, {width: progAnim}]}>
           <Text>.</Text>
         </Animated.View>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     position: 'absolute',
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.success,
     color: COLORS.transparent,
     opacity: 0.1,
     width: horizontalScale(10),

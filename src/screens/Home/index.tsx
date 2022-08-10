@@ -1,12 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  PermissionsAndroid,
-  ScrollView,
-  Modal,
-} from 'react-native';
+import {View, StyleSheet, Image, ScrollView, StatusBar} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import AppImages from '../../assets/images';
 import {
@@ -14,9 +7,12 @@ import {
   ListItem,
   ListTable,
   PrimaryButton,
-  TextLarge,
   TextSmall,
   GPSCard,
+  Wrapper,
+  Button,
+  TextPrimary,
+  AlertModal,
 } from '../../components';
 import {UploadCard} from '../../components/Card';
 import {Status} from '../../constants';
@@ -29,12 +25,14 @@ import {ExifData, Place} from './types';
 import {displayDateTime} from '../../utils/helper';
 import {GeoCodinngService} from '../../services/geoCoding.service';
 import AddressCard from '../../components/Card/AddressCard';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Home = () => {
   const [image, setImage] = useState<any>();
   const [status, setStatus] = useState<Status>(Status.UPLOADING);
   const [place, setPlace] = useState<Place>();
   const [exifData, setExifData] = useState<ExifData>();
+  const [modalVisible, setModalVisible] = useState(false);
   const img = useRef(null).current;
 
   const selectImage = async () => {
@@ -63,9 +61,13 @@ const Home = () => {
       expanded: true,
       includeUnknown: true,
     });
-    // console.log(tags);
-
-    setExifData(tags);
+    if (tags.exif) {
+      setExifData(tags);
+      setModalVisible(false);
+    } else {
+      setModalVisible(true);
+      setExifData(undefined);
+    }
   };
 
   useEffect(() => {
@@ -85,39 +87,35 @@ const Home = () => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.uploadContainer}>
-          {status !== Status.DONE && (
-            <View style={styles.uploadBtnCard}>
-              <TextSmall style={{textAlign: 'center'}}>
-                Browse the image and upload to get the EXIF data for the image
-              </TextSmall>
-              <Image source={AppImages.imageIcon} style={styles.imgIcon} />
-              <PrimaryButton
-                style={{marginVertical: verticalScale(10)}}
-                name="Browse Image"
-                onPress={() => selectImage()}
-              />
-            </View>
-          )}
-          {status === Status.DONE && (
-            <Image ref={img} source={{uri: image.uri}} style={styles.image} />
-          )}
-          {image && (
-            <UploadCard
-              fileName={'Your Image'}
-              status={status}
-              progress={320}
-              onClose={() => {
-                setImage(null),
-                  setStatus(Status.UPLOADING),
-                  setExifData(undefined);
-              }}
-            />
-          )}
-        </View>
-      </View>
-      {exifData && (
+      <StatusBar translucent={false} barStyle={'light-content'} />
+      <Wrapper
+        childStyle={styles.uploadContainer}
+        image={image ? image : AppImages.hero1}>
+        {status !== Status.DONE && (
+          <>
+            <TextSmall style={{textAlign: 'center', color: COLORS.light}}>
+              Browse an image and upload to get the meta data of the image
+            </TextSmall>
+            <Button style={styles.button} onPress={() => selectImage()}>
+              <TextPrimary>Browse Image</TextPrimary>
+            </Button>
+          </>
+        )}
+        {image && (
+          <UploadCard
+            fileName={'Your Image'}
+            status={status}
+            progress={320}
+            onClose={() => {
+              setImage(null),
+                setStatus(Status.UPLOADING),
+                setModalVisible(false);
+              setExifData(undefined);
+            }}
+          />
+        )}
+      </Wrapper>
+      {exifData && exifData.exif && (
         <BottomSheet title="EXIF Information">
           <ListItem
             label={'Date/Time'}
@@ -136,6 +134,12 @@ const Home = () => {
           {place && <AddressCard data={place} />}
         </BottomSheet>
       )}
+      <AlertModal
+        color={COLORS.primary}
+        title="No EXIF"
+        msg="Your image do not contain EXIF data."
+        visibility={modalVisible}
+      />
     </ScrollView>
   );
 };
@@ -144,33 +148,22 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.primary,
     height: verticalScale(640),
   },
   uploadContainer: {
-    width: horizontalScale(340),
     padding: horizontalScale(10),
-    borderRadius: horizontalScale(10),
-    backgroundColor: COLORS.white,
-    textAlign: 'center',
-  },
-  uploadBtnCard: {
-    padding: horizontalScale(10),
-    textAlign: 'center',
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: hexToRGB(COLORS.primary, 0.5),
-  },
-  imgIcon: {
-    width: horizontalScale(100),
-    resizeMode: 'contain',
-    tintColor: COLORS.primary,
-    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     width: horizontalScale(320),
     resizeMode: 'cover',
     height: verticalScale(200),
+  },
+  button: {
+    marginVertical: verticalScale(10),
+    padding: horizontalScale(10),
+    backgroundColor: COLORS.light,
   },
 });
 
