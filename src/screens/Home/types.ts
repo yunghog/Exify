@@ -415,3 +415,10 @@ export interface Place {
   continent: string;
   label: string;
 }
+
+export interface AlertErrorModel {
+  showModal: boolean;
+  message: string;
+  title?: string;
+  color: string;
+}
