@@ -393,3 +393,32 @@ export interface ExifData {
   icc: Icc;
   jfif: Jfif;
 }
+
+export interface Place {
+  latitude: number;
+  longitude: number;
+  type: string;
+  distance: number;
+  name: string;
+  number?: any;
+  postal_code: string;
+  street?: any;
+  confidence: number;
+  region: string;
+  region_code: string;
+  county: string;
+  locality: string;
+  administrative_area?: any;
+  neighbourhood?: any;
+  country: string;
+  country_code: string;
+  continent: string;
+  label: string;
+}
+
+export interface AlertErrorModel {
+  showModal: boolean;
+  message: string;
+  title?: string;
+  color: string;
+}
