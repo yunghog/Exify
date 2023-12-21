@@ -1,0 +1,42 @@
+name: Build React Native App
+
+on:
+  push:
+    branches:
+      - main # adjust this to the branch where you want the workflow to run
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '14'
+
+    - name: Install Dependencies
+      run: |
+        npm install
+
+    - name: Build React Native App
+      run: |
+        npx react-native build
+
+    - name: Archive Build Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: android/app/build/outputs/apk # adjust this to the path where your build artifacts are generated
+
+    - name: Commit and Push Build Artifacts
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git checkout -b build-artifacts
+        git add android/app/build/outputs/apk # adjust this to the path where your build artifacts are generated
+        git commit -m "Upload build artifacts"
+        git push origin build-artifacts
