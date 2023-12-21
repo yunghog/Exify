@@ -22,8 +22,11 @@ jobs:
 
     - name: Build React Native App
       run: |
-        npx react-native run-android --variant=debug
-        cd android && ./gradlew assembleDebug
+         cd android
+         ./gradlew clean
+         cd ..
+         npx react-native run-android --variant=debug
+         cd android && ./gradlew assembleDebug
 
 
     - name: Archive Build Artifacts
