@@ -22,7 +22,9 @@ jobs:
 
     - name: Build React Native App
       run: |
-        npx react-native build
+        npx react-native run-android --variant=debug
+        cd android && ./gradlew assembleDebug
+
 
     - name: Archive Build Artifacts
       uses: actions/upload-artifact@v2
