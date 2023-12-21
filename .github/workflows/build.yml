@@ -1,9 +1,7 @@
 name: Build React Native App
 
 on:
-  push:
-    branches:
-      - main # adjust this to the branch where you want the workflow to run
+   workflow_dispatch:
 
 jobs:
   build:
