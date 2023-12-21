@@ -89,6 +89,8 @@ To contribute directly to the codebase, follow these steps:
     ```
 6. Open a pull request on GitHub, providing a clear description of your changes.
 
+7. test the build
+
 
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
